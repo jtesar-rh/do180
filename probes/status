@@ -1,0 +1,12 @@
+#!/bin/bash
+PROBES='liveness readiness startup'
+PROBES_SUC=$(oc exec svc/ctrl -- ls /var/www/html/)
+for i in $PROBES; do
+  echo $PROBES_SUC | grep $i &> /dev/null
+  if [[ $? == 0 ]]; then
+    echo -e "$i \t\t succeedes"
+  else
+    echo -e "$i \t\t fails"
+  fi
+done
+

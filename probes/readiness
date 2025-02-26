@@ -1,0 +1,19 @@
+#!/bin/bash
+PROBE=$(echo $0 | sed -e 's/^.*\/\(.*\)$/\1/')
+if [[ $# != 1 ]]; then
+	echo usage $0 0\|1
+	exit -1
+fi	
+
+if [[ $1 != 0 && $1 != 1 ]]; then
+	echo usage $0 0\|1
+	exit -1
+fi	
+
+if [[ $1 == 1 ]]; then
+  oc exec svc/ctrl -- touch /var/www/html/$PROBE
+  echo $PROBE succeeds
+else
+  oc exec svc/ctrl -- rm -f /var/www/html/$PROBE
+  echo $PROBE fails
+fi  
